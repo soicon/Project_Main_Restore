@@ -4,6 +4,8 @@
     Author     : dung nguyen
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.dal.RouteContext"%>
 <%@page import="com.dal.LoginContext"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -39,37 +41,37 @@
         %>
 
         <t:login url="login.jsp" message="You have to login first"/>
-        <form action="BookingController">
-            <div class="container">
-                <div class="content">
-                    <div   style="float: right"><a href="logout.jsp?logout=true"/> <%=session.getAttribute("logined")%>,Log out </div>
-                    <ul id="nav">
-                        <li><a href="index.jsp">Home</a></li>
-                        <li><a href="#" >Booking</a>
-                            <ul class="subs" >
 
-                                <li><a href="SearchBooking.jsp">Search Booking</a></li>
-                                <li><a href="AddBooking.jsp">Add New Booking</a></li>
-                                <li><a href="BookingDetail.jsp">View Booking Details</a></li>
-                                <li id="admode"><a href="UpdateBooking.jsp">Update Booking</a></li>
+        <div class="container">
+            <div class="content">
+                <div   style="float: right"><a href="logout.jsp?logout=true"/> <%=session.getAttribute("logined")%>,Log out </div>
+                <ul id="nav">
+                    <li><a href="index.jsp">Home</a></li>
+                    <li><a href="#" >Booking</a>
+                        <ul class="subs" >
 
-                            </ul>
-                        </li>
-                        <li><a href="#">Customer</a>
-                            <ul class="subs">
-                                <li id="admode1"><a href="AddCustomer.jsp">Add New Customer</a></li>
-                                <li><a href="UpdateCustomer.jsp">Update Customer Info</a></li>
-                                <li><a href="ChangePassword.jsp">Change Password</a></li>
-                                <li id="admode2"><a href="ViewBookingByName.jsp">View Booking by Customer </a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Author</a></li>
-                    </ul>
-                </div>
+                            <li><a href="SearchBooking.jsp">Search Booking</a></li>
+                            <li><a href="AddBooking.jsp">Add New Booking</a></li>
+                            <li><a href="BookingDetail.jsp">View Booking Details</a></li>
+                            <li id="admode"><a href="UpdateBooking.jsp">Update Booking</a></li>
+
+                        </ul>
+                    </li>
+                    <li><a href="#">Customer</a>
+                        <ul class="subs">
+                            <li id="admode1"><a href="AddCustomer.jsp">Add New Customer</a></li>
+                            <li><a href="UpdateCustomer.jsp">Update Customer Info</a></li>
+                            <li><a href="ChangePassword.jsp">Change Password</a></li>
+                            <li id="admode2"><a href="ViewBookingByName.jsp">View Booking by Customer </a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Author</a></li>
+                </ul>
             </div>
+        </div>
 
-
+        <form action="BookingController">
             <div class="center">
 
 
@@ -90,46 +92,79 @@
                 %>
                 <%pageContext.setAttribute("d", detailer.getBookingById(ids));%>
                 <c:forEach items="${d}" var="i">
-                    <form action="BookingController">
-                        <p style="font-size: 20px">Booking ID: <input readonly type="text" value="${i.id}" name="id"/></p> <br><br>
-                        <p style="font-size: 20px">Customer Name : ${i.cus_name}</p>  <br><br>   
-                        <p style="font-size: 20px">Route: ${i.route}</p>    <br><br>
-                        <p style="font-size: 20px">Flight Number: <input type="text" value="${i.flight_number}" name="fnum" required/></p> <br><br>
-                        <p style="font-size: 20px">Date: ${i.date}</p> <br><br>
-                        <p style="font-size: 20px">Booking Open: 
-                            <c:choose>
-                                <c:when test="${i.isOpen == 0}">
-                                    <input type="radio" name="isopen"  checked/> Yes
-                                    <input type="radio" name="isopen"  /> No
-                                </c:when>
-                                <c:when test="${i.isOpen== 1}">
-                                    <input type="radio" name="isopen" /> Yes
-                                    <input type="radio" name="isopen" checked/> No
-                                </c:when>
-                                <c:otherwise>
-                                    <input type="radio" name="isopen" /> Yes
-                                    <input type="radio" name="isopen" checked  /> No
-                                </c:otherwise>
-                            </c:choose>
-                        <p style="font-size: 20px">Fare: ${i.fare}</p> <br><br>
-                        <p style="font-size: 20px">Departure: <input type="text" value="${i.departure}" name="depart"/></p> <br><br>
-                        <p style="font-size: 20px">Arrival: <input type="text" value="${i.arrival}" name="arrival"/></p> <br><br>
-                        <input  type="submit" value="save" name="btn"  />
-                    </form>
+
+                    <p style="font-size: 20px">Booking ID: <input readonly id="id" type="text" value="${i.id}" name="id"/></p> <br><br>
+                    <p style="font-size: 20px">Customer Name : ${i.cus_name}</p>  <br><br>   
+                    <%  if (request.getParameter("code") != null) {%>
+                    <c:set var="x" value='<%=request.getParameter("code")%>'></c:set>
+                    <%}%>
+
+                    <p style="font-size: 20px">Flight Number: 
+                        <select id="codeRoute" name="codeRoute" onchange="getCode()">
+                            <option value=""></option>
+                            <%
+                                RouteContext rc = new RouteContext();
+                                ArrayList<String> p = new ArrayList<>();
+                                p = rc.getCode();
+                                request.setAttribute("list", p);
+                            %>
+                            <c:forEach items="${list}" var="j">
+                                <option value="${j}" ${j == x?'selected="selected"':''} >${j}</option>
+                            </c:forEach>
+
+                        </select>
+                    <p style="font-size: 20px">Route: 
+                        <%
+                            String route = "";
+                            if (request.getParameter("code") != null) {
+                                route = rc.getRoute(request.getParameter("code"));
+                            }
+
+                        %>
+                        <input id="route" readonly type="text" name="route" value="<%=route%>" /></p>    <br><br>
+                    <p style="font-size: 20px">Date: ${i.date}</p> <br><br>
+                    <p style="font-size: 20px">Booking Open: 
+
+
+                        <input type="radio" name="isopen" checked /> Yes
+                        <input type="radio" name="isopen" /> No
+
+                        <%
+                            double fare = -1;
+                            if (request.getParameter("code") != null) {
+                                fare = rc.getFare(request.getParameter("code"));
+                            }
+                        %>
+
+                    <p style="font-size: 20px">Fare:  <input readonly type="text" name="fare" value="<%=fare%>" /></p> <br><br>
+                    <p style="font-size: 20px">Departure: <input type="text" value="${i.departure}" name="depart"/></p> <br><br>
+                    <p style="font-size: 20px">Arrival: <input type="text" value="${i.arrival}" name="arrival"/></p> <br><br>
+                    <input  type="submit" value="save" name="btn"  />
+
                 </c:forEach>
             </div>
             <script>
-                            if ("<%=mode%>" === "user") {
+                if ("<%=mode%>" === "user") {
 
-                                document.getElementById("admode").style.display = "none";
-                                document.getElementById("admode1").style.display = "none";
-                                document.getElementById("admode2").style.display = "none";
+                    document.getElementById("admode").style.display = "none";
+                    document.getElementById("admode1").style.display = "none";
+                    document.getElementById("admode2").style.display = "none";
 
-                            }
+                }
 
             </script>
 
-    
+        </form>
 
     </body>
 </html>
+<script>
+    function getCode() {
+        var e = document.getElementById("codeRoute");
+        var id = document.getElementById("id").value;
+        var strUser = e.options[e.selectedIndex].value;
+        window.location.replace("UpdateBooking.jsp?id="+id+"&code=" + strUser);
+        document.getElementById('codeRoute').value = strUser;
+    }
+
+</script>

@@ -11,10 +11,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="detail" uri="http://java.sun.com/jstl/core" %>
-<<<<<<< HEAD
 <%@taglib prefix="t" uri="/WEB-INF/tlds/tag" %>
-=======
->>>>>>> e28848d... First commit
 <!DOCTYPE html>
 <html>
     <head>
@@ -85,9 +82,6 @@
                     <c:set var="x" value='<%=request.getParameter("code")%>'></c:set>
                     <%}
                     %>
-
-
-
                 <p style="font-size: 20px">Flight Number: 
                     <select id="codeRoute" name="codeRoute" onchange="getCode()">
                         <option value=""></option>

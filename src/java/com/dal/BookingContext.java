@@ -102,15 +102,17 @@ public class BookingContext extends DBContext {
         return p;
     }
 
-    public void updateBooking(String id, String fly_num, int isOpen, String depart, String arrival) throws Exception {
-        String sql = "update detail set flight_number = ? ,booking_close = ? , departure = ? , arrival = ? where Booking_ID= ?";
+    public void updateBooking(String id, String fly_num, String route, int isOpen, double fare,String depart, String arrival) throws Exception {
+        String sql = "update detail set flight_number = ? ,route=? ,booking_close = ? ,fare =?, departure = ? , arrival = ? where Booking_ID= ?";
         PreparedStatement ps = getConnection().prepareStatement(sql);
 
         ps.setString(1, fly_num);
-        ps.setInt(2, isOpen);
-        ps.setString(3, depart);
-        ps.setString(4, arrival);
-        ps.setString(5, id);
+        ps.setString(2,route);
+        ps.setInt(3, isOpen);
+        ps.setDouble(4, fare);        
+        ps.setString(5, depart);
+        ps.setString(6, arrival);
+        ps.setString(7, id);
         ps.executeUpdate();
 
     }
