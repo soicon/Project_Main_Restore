@@ -1,15 +1,12 @@
 <%-- 
-    Document   : SearchBooking
-    Created on : Nov 28, 2016, 9:28:07 PM
+    Document   : CustomerDetail
+    Created on : Nov 28, 2016, 9:31:25 PM
     Author     : dung nguyen
 --%>
-
-<%@page import="com.entities.Booking"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="com.dal.BookingContext"%>
 <%@page import="com.dal.LoginContext"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="detail" uri="http://java.sun.com/jstl/core" %>
 <%@taglib prefix="t" uri="/WEB-INF/tlds/tag" %>
 <!DOCTYPE html>
 <html>
@@ -39,8 +36,9 @@
             String mode = lc.getMode((String) session.getAttribute("logined")).trim();
         %>
 
+        <jsp:useBean id="customerDetail" scope="session" class="com.dal.LoginContext"/>
         <t:login url="login.jsp" message="You have to login first"/>
-        <form action="CustomerController">
+       
             <div class="container">
                 <div class="content">
                     <div   style="float: right"><a href="logout.jsp?logout=true"/> <%=session.getAttribute("logined")%>,Log out </div>
@@ -69,65 +67,17 @@
                     </ul>
                 </div>
             </div>
-            <%
-                if (request.getAttribute("update") != null) {
-            %>
-            <p style="color:green; font-size: 20ox"><%=request.getAttribute("update")%></p>
-            <%}
-            %>
-            <div class="center">
-                   <% if (mode.equalsIgnoreCase("admin")) { %>
-                <p style="font-size: 20px;float:  ">Enter Customer Name <input id="idCustomer"type="text" value="" name="cus_name"/> 
-                    <input type="submit" value="search" name="btn"/>
-                    <%}%>
-                    
-            </div> 
+            <div class="center">         
+                <% String ids = request.getParameter("uid");  %>
+                <%pageContext.setAttribute("cus", customerDetail.getInfoByName(ids));%>
+                <c:forEach items="${cus}" var="i">
+                    <p style="font-size: 20px">ID: ${i.id}</p> <br><br>
+                    <p style="font-size: 20px">Customer Name : ${i.uid}</p>  <br><br>   
+                    <p style="font-size: 20px">Role: ${i.mode}</p> <br><br>                    
+                    <p style="font-size: 20px">Date: ${i.date}</p> <br><br>
+                    <input  type="button" value="back" onclick="window.location = 'SearchCustomer.jsp'" name="btn"/>
 
-            <div class="table">
-                <table id ="dataTable" border="1" cellspacing="0" width="600">
-                    <tr>
-                        <th>ID</th>
-                        <th>Customer Name</th>                        
-                        <th>Create Date</th>
-                        <th>Role</th>
-                        
-                    </tr>
-
-                    <% if (mode.equalsIgnoreCase("admin")) { %>
-                    <c:forEach items="${listCustomer}" var="i">
-                        <tr>
-                            <td><a href="CustomerDetail.jsp?uid=${i.uid}" />${i.id}</td>
-                            
-                            <td>${i.uid}</td>                            
-                            <td>${i.date}</td>
-                            <td>${i.mode}</td>
-
-                            <td><a href="ChangePassword.jsp"/>Change Password</td>
-                            <td><a href="BookingController?id=${i.uid}&btn=search"/>View All Booking</td>
-                        </tr>
-                    </c:forEach>
-                    <%} else {
-                        String user = (String) session.getAttribute("logined");
-                        
-                        
-
-                        request.setAttribute("user", lc.getInfoByName(user));
-                    %>
-                    <c:forEach items="${user}" var="j">
-                        <tr>
-                            <td><a href="CustomerDetail.jsp?uid=${j.uid}" />${j.id}</td>
-                            <td>${j.uid}</td>                            
-                            <td>${j.date}</td>
-                            <td>${j.mode}</td>
-
-
-                             <td><a href="ChangePassword.jsp"/>Change Password</td>
-                        </tr>
-                    </c:forEach>
-                    <%}%>
-
-
-                </table>
+                </c:forEach>
             </div>
             <script>
                 if ("<%=mode%>" === "user") {
@@ -139,16 +89,5 @@
                 }
 
             </script>
-        </form>
     </body>
 </html>
-
-<script>
-    function getData(element) {
-
-        document.getElementById("idBooking").value = document.getElementById("dataTable").rows[element.parentNode.parentNode.rowIndex].cells[0].textContent;
-    }
-
-
-</script>
-

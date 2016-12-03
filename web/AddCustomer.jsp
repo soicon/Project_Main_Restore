@@ -45,7 +45,7 @@
 
 
         <t:login url="login.jsp" message="You have to login first"/>
-        <form action="BookingController">
+        
             <div class="container">
                 <div class="content">
                     <div   style="float: right"><a href="logout.jsp?logout=true"/> <%=session.getAttribute("logined")%>,Log out </div>
@@ -74,7 +74,7 @@
                     </ul>
                 </div>
             </div>
-            <form action="BookingController">
+            <form action="CustomerController">
                 <section>          
                     <%
                         if (request.getAttribute("error") != null) {

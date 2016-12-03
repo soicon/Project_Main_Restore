@@ -55,6 +55,9 @@
                     </ul>
                 </div>
             </div>
+            <%
+                response.sendRedirect("SearchCustomer.jsp");
+            %>
 
             <script>
                 if ("<%=mode%>" === "user") {

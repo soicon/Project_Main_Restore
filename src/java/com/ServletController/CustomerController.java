@@ -5,11 +5,9 @@
  */
 package com.ServletController;
 
-import com.dal.BookingContext;
-import com.entities.Booking;
+import com.dal.LoginContext;
 import java.io.IOException;
 import java.io.PrintWriter;
-import static java.lang.System.out;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -22,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author dung nguyen
  */
-public class test extends HttpServlet {
+public class CustomerController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,23 +33,37 @@ public class test extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
-
+        String uid = request.getParameter("uid");
+        String pwd = request.getParameter("pwd");
+        String cus_name = request.getParameter("cus_name");
+        LoginContext lc = new LoginContext();
         String action = request.getParameter("btn");
-        String name = request.getParameter("bookingid");
-        
-            
-            BookingContext pc = new BookingContext();
-            if (action.equalsIgnoreCase("search")) {
-                request.setAttribute("lister", pc.getProductsByName(name));
+        if (action.equalsIgnoreCase("register")) {
+            int i = lc.isDuplicate(uid);
+            if (i == 1) {
+                lc.register(uid, pwd, "user");
+                request.setAttribute("register", "Register Successfully");
+            } else {
+                request.setAttribute("error", "This username has been exist");
             }
-            RequestDispatcher rd = request.getRequestDispatcher("SearchBooking.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("AddCustomer.jsp");
             rd.forward(request, response);
 
-        
+        } else if (action.equalsIgnoreCase("change")) {
+            lc.changePass(uid, pwd);
+            request.setAttribute("change", "Password change successfully");
+            RequestDispatcher rd = request.getRequestDispatcher("ChangePassword.jsp");
+            rd.forward(request, response);
+        } else if (action.equalsIgnoreCase("search")) {
 
+            request.setAttribute("listCustomer", lc.getData(cus_name));
+            RequestDispatcher rd = request.getRequestDispatcher("SearchCustomer.jsp");
+            rd.forward(request, response);
+
+        }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -66,7 +78,7 @@ public class test extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CustomerController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -84,7 +96,7 @@ public class test extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CustomerController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

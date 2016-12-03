@@ -5,10 +5,15 @@
  */
 package com.dal;
 
+import com.entities.Customer;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -58,6 +63,24 @@ public class LoginContext extends DBContext {
         return 1;
     }
 
+    public ArrayList<Customer> getData(String regex) throws SQLException {
+        String sql = "select * from Userdata where uid like '%" + regex + "%'";
+        PreparedStatement ps = getConnection().prepareStatement(sql);
+
+        ArrayList<Customer> p = new ArrayList();
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            String uid = rs.getString(1);
+            String pwd = rs.getString(2);
+            String mode = rs.getString(3);
+            int id = rs.getInt(4);
+            String currentDay = rs.getString(5);
+            Customer x = new Customer(uid, pwd, mode, id,currentDay);
+            p.add(x);
+        }
+        return p;
+    }
+
     public String getPass(String id) throws SQLException {
         String sql = "select pwd from UserData where uid=?";
 
@@ -72,13 +95,16 @@ public class LoginContext extends DBContext {
     }
 
     public void register(String uid, String pass, String mode) throws SQLException {
-        String sql = "insert into UserData values(?,?,?,?)";
-
+        String sql = "insert into UserData values(?,?,?,?,?)";
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = new Date();
+        String currentDay = dateFormat.format(date);
         PreparedStatement ps = getConnection().prepareStatement(sql);
         int rowCount = getRowCount();
         ps.setString(1, uid);
         ps.setString(2, pass);
         ps.setString(3, mode);
+        ps.setString(5, currentDay);
         ps.setInt(4, (rowCount != -1) ? rowCount + 1 : -1);
         ps.executeUpdate();
     }
@@ -107,12 +133,28 @@ public class LoginContext extends DBContext {
         }
     }
 
-    public void changePass(String id,String pwd) throws SQLException {
+    public void changePass(String id, String pwd) throws SQLException {
         String sql = "update UserData set pwd =? where uid = ?";
         PreparedStatement ps = getConnection().prepareStatement(sql);
         ps.setString(1, pwd);
         ps.setString(2, id);
         ps.executeUpdate();
+    }
+
+      public List<Customer> getInfoByName(String pName) throws Exception {
+        List<Customer> p = new ArrayList<Customer>();
+        String sql = "select * from UserData where uid like" + "'" + pName + "'";
+        ResultSet rs = getConnection().prepareStatement(sql).executeQuery();
+        while (rs.next()) {
+            String uid = rs.getString(1);
+            String pwd = rs.getString(2);
+            String mode = rs.getString(3);
+            int id = rs.getInt(4);
+            String currentDay = rs.getString(5);
+            Customer x = new Customer(uid, pwd, mode, id,currentDay);
+            p.add(x);
+        }
+        return p;
     }
 
 }

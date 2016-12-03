@@ -60,7 +60,7 @@ public class BookingContext extends DBContext {
 
     }
 
-    public List<Booking> getProductsByName(String pName) throws Exception {
+    public List<Booking> getBookingByName(String pName) throws Exception {
         List<Booking> p = new ArrayList<Booking>();
         String sql = "select * from detail where Booking_Name like" + "'%" + pName + "%'";
         ResultSet rs = getConnection().prepareStatement(sql).executeQuery();

@@ -109,7 +109,7 @@
                         String currentUser = user.toUpperCase();
                         BookingContext bc = new BookingContext();
 
-                        request.setAttribute("userList", bc.getProductsByName(currentUser));
+                        request.setAttribute("userList", bc.getBookingByName(currentUser));
                     %>
                     <c:forEach items="${userList}" var="i">
                         <tr>
@@ -144,8 +144,15 @@
 
 <script>
     function getData(element) {
-
-        document.getElementById("idBooking").value = document.getElementById("dataTable").rows[element.parentNode.parentNode.rowIndex].cells[0].textContent;
+        if (confirm('Are you sure you want to delete this thing into the database?')) {
+             document.getElementById("idBooking").value = document.getElementById("dataTable").rows[element.parentNode.parentNode.rowIndex].cells[0].textContent;
+        } else {
+            // Do nothing!
+        }
+       
+    }
+    function doConfirm() {
+        alert(2);
     }
 
 
