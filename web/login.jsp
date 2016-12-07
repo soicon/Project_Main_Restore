@@ -39,21 +39,22 @@
             <%
                 if (session.getAttribute("error") != null) {
             %>
-            <p style="color:red;"><%=session.getAttribute("error")%></p>
-            <%}else if(session.getAttribute("register") != null){
+            <p style="color:red;"><%=session.getAttribute("error") %></p>
+            
+            <%} else if (session.getAttribute("register") != null) {
             %>
-             <p style="color:blue;"><%=session.getAttribute("register")%></p>
+            <p style="color:green;"><%=session.getAttribute("register")%></p>
             <%}%>
             <form action="ValidLogin.jsp" >
 
                 <p>ID<span style="padding-left:57px"></span><input  type="text" value="" name="uid"/></p>
                 <p>Password : <input type="password" value="" name="pwd"/></p>
-                
-                
-                
+
+
+
                 <span style="padding-left: 110px"></span>
                 <input style="" type="submit" value="login" name="btn"/>
-                
+
                 <p>Don't have a account? Click <a href="Register.jsp"/>here</a>
             </form>
         </section>

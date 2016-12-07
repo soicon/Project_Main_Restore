@@ -3,18 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/dung%20nguyen/Documents/NetBeansProjects/Project_Main_Restore/src/java/com/dal/BookingContext.java</file>
-            <file>file:/C:/Users/dung%20nguyen/Documents/NetBeansProjects/Project_Main_Restore/web/login.jsp</file>
-            <file>file:/C:/Users/dung%20nguyen/Documents/NetBeansProjects/Project_Main_Restore/web/SearchBooking.jsp</file>
-            <file>file:/C:/Users/dung%20nguyen/Documents/NetBeansProjects/Project_Main_Restore/src/java/com/ServletController/BookingController.java</file>
-            <file>file:/C:/Users/dung%20nguyen/Documents/NetBeansProjects/Project_Main_Restore/src/java/com/entities/Booking.java</file>
-            <file>file:/C:/Users/dung%20nguyen/Documents/NetBeansProjects/Project_Main_Restore/web/SearchCustomer.jsp</file>
-            <file>file:/C:/Users/dung%20nguyen/Documents/NetBeansProjects/Project_Main_Restore/web/AddBooking.jsp</file>
-            <file>file:/C:/Users/dung%20nguyen/Documents/NetBeansProjects/Project_Main_Restore/web/ValidLogin.jsp</file>
-            <file>file:/C:/Users/dung%20nguyen/Documents/NetBeansProjects/Project_Main_Restore/web/UpdateBooking.jsp</file>
-            <file>file:/C:/Users/dung%20nguyen/Documents/NetBeansProjects/Project_Main_Restore/web/ChangePassword.jsp</file>
-            <file>file:/C:/Users/dung%20nguyen/Documents/NetBeansProjects/Project_Main_Restore/web/AddCustomer.jsp</file>
-            <file>file:/C:/Users/dung%20nguyen/Documents/NetBeansProjects/Project_Main_Restore/src/java/com/dal/LoginContext.java</file>
+            <file>file:/C:/Users/dung%20nguyen/Documents/NetBeansProjects/Project_Main_Restore/web/BookingDetail.jsp</file>
         </group>
     </open-files>
 </project-private>

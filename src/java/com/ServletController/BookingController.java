@@ -71,7 +71,7 @@ public class BookingController extends HttpServlet {
           
         } else if (action.equalsIgnoreCase("delete")) {
             pc.deleteBooking(id);
-            request.setAttribute("lister", pc.getBookingByName(id));
+            request.setAttribute("lister", pc.getProducts());
 
 
         } else if (action.equalsIgnoreCase("add")) {

@@ -56,8 +56,9 @@ public class BookingContext extends DBContext {
         ps.setDouble(7, e.getFare());
         ps.setString(8,e.getDeparture());
         ps.setString(9,e.getArrival());
-        ps.executeUpdate();
-
+        System.out.println(ps.toString());
+        //ps.executeUpdate();
+        ps.close();
     }
 
     public List<Booking> getBookingByName(String pName) throws Exception {

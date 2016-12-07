@@ -12,12 +12,15 @@
     String action = request.getParameter("btn");
     LoginContext lc = new LoginContext();
     if (action.equalsIgnoreCase("register")) {
-        lc.register(id, pass, "user");
+        int i = lc.isDuplicate(id);
+        if (i == 1) {
+            lc.register(id, pass, "user");
+            session.setAttribute("registerUser", "Register Successfully");
+        } else {
+            session.setAttribute("errorRegister", "This username has been exist");
+        }
 
-        session.setAttribute("register", "Register Successfully");
-
-
-        response.sendRedirect("login.jsp");
+        response.sendRedirect("Register.jsp");
 
     } else {
 

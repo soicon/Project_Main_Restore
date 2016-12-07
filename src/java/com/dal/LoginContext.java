@@ -95,6 +95,7 @@ public class LoginContext extends DBContext {
     }
 
     public void register(String uid, String pass, String mode) throws SQLException {
+        try{
         String sql = "insert into UserData values(?,?,?,?,?)";
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
@@ -107,6 +108,9 @@ public class LoginContext extends DBContext {
         ps.setString(5, currentDay);
         ps.setInt(4, (rowCount != -1) ? rowCount + 1 : -1);
         ps.executeUpdate();
+        }catch(Exception e){
+            
+        }
     }
 
     public String getMode(String id) throws SQLException {
